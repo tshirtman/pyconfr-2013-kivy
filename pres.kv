@@ -1,0 +1,181 @@
+#:import Window kivy.core.window.Window
+#:import transitions main.transitions
+#:import choice random.choice
+#:import random random.random
+#:set h1 '100sp'
+#:set h2 '50sp'
+#:set h3 '30sp'
+#:set text '25sp'
+
+
+FloatLayout:
+    GridLayout:
+        id: gl
+        x: root.x
+        top: sum(c.height for c in self.children[:app.page+1])
+        on_pos: print self.pos
+        cols: 1
+        size_hint_y: None
+        height: self.minimum_height
+
+        # title
+        FloatLayout:
+            Image:
+                size_hint: .5, .5
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                source: 'data/logo/kivy-icon-512.png'
+
+            FloatLabel:
+                pos_hint: {'center_x': .5, 'top': .9}
+                text: 'Kivy'
+                font_size: h1
+
+            FloatLabel:
+                text: 'Applications multitouch et mobile, avec Python.'
+                text_size: root.width, None
+                font_size: h2
+                pos_hint: {'center_x': .5, 'y': .1}
+
+        # introduction
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Introduction'
+            TextLine:
+                text:
+                    (
+                    "Kivy est un framework UI python, orienté interaction multitouch\n"
+                    "Basé sur openglES 2.0, il est très portable, et très performant\n"
+                    "Il est très facile à étendre en Python, puisque c'est son langage natif\n"
+                    ""
+                    )
+            Widget:
+
+
+        # concepts
+        # widget tree, canvas, properties
+        BoxLayout:
+            pos_hint: {'x': 0}
+            orientation: 'vertical'
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Concepts'
+            TextLine:
+                text:
+                    (
+                    'Widget\n'
+                    '- Un widget a une représentation graphique et un ensemble de comportements\n'
+                    '- Un widget peut avoir un parent\n'
+                    '- Un widget peut avoir des enfants\n'
+                    )
+            Widget:
+
+        # hello world python
+        FloatLayout:
+            TabbedPanel:
+                pos_hint: {'x': 0, 'y': 0}
+                do_default_tab: False
+                TabbedPanelItem:
+                    text: 'Code'
+                    CodeInput:
+                        text: open('hello_world_py.py').read()
+                        readonly: True
+
+                TabbedPanelItem:
+                    text: 'Result'
+                    Label:
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        text: 'Hello World'
+
+        # hello world KV
+        FloatLayout:
+            TabbedPanel:
+                pos_hint: {'x': 0, 'y': 0}
+                do_default_tab: False
+                TabbedPanelItem:
+                    text: 'Code python'
+                    CodeInput:
+                        text: open('hello_world_kv.py').read()
+                        readonly: True
+
+                TabbedPanelItem:
+                    text: 'Code KV'
+                    CodeInput:
+                        text: open('hello_world_kv.kv').read()
+                        readonly: True
+
+                TabbedPanelItem:
+                    text: 'Result'
+                    Label:
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        text: 'Hello World'
+
+        # example plus complex avec python et kv
+
+        # examples canvas + properties
+
+        # examples création widget perso
+
+        # classes dynamiques
+
+        ## pyjnius/pyobjus
+
+        # présentation du probleme
+
+        # pyjnius
+
+        # pyobjus
+
+        ## packaging
+        # python-for-android
+
+        # kivy-ios
+
+        # buildozer
+
+        ## conclusion
+
+        # questions?
+
+
+<FloatLabel@Label>:
+    size: self.texture_size
+    id: label
+    size_hint: None, None
+    halign: 'center'
+
+<FloatLayout>:
+    size_hint_y: None
+    height: Window.height
+
+<TextLine@Magnet>:
+    text: ''
+    transition: {'center_x:': choice(transitions), 'center_y': choice(transitions)}
+    duration: random() * 3
+    size_hint_y: None
+    height: label.texture_size[1]
+    pos_hint: {'x': 0}
+    Label:
+        id: label
+        text: root.text
+        text_size: root.width, None
+        font_size: text
+
+<Title@Label>:
+    size: self.texture_size
+    size_hint: None, None
+    halign: 'center'
+    font_size: h2
