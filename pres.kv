@@ -74,62 +74,183 @@ FloatLayout:
             Widget:
 
         # hello world python
-        FloatLayout:
-            TabbedPanel:
-                pos_hint: {'x': 0, 'y': 0}
-                do_default_tab: False
-                TabbedPanelItem:
-                    text: 'Code'
-                    CodeInput:
-                        text: open('hello_world_py.py').read()
-                        readonly: True
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            StencilView:
+                id: stencil_1
+                FloatLayout:
+                    pos: stencil_1.pos
+                    size: stencil_1.size
+                    TabbedPanel:
+                        pos_hint: {'x': 0, 'y': 0}
+                        do_default_tab: False
+                        TabbedPanelItem:
+                            text: 'Code'
+                            CodeInput:
+                                text: open('hello_world_py.py').read()
+                                readonly: True
 
-                TabbedPanelItem:
-                    text: 'Result'
-                    Label:
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 0, 1
-                            Rectangle:
-                                pos: self.pos
-                                size: self.size
-                        text: 'Hello World'
+                        TabbedPanelItem:
+                            text: 'Result'
+                            Label:
+                                canvas.before:
+                                    Color:
+                                        rgba: 0, 0, 0, 1
+                                    Rectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                text: 'Hello World'
 
         # hello world KV
-        FloatLayout:
-            TabbedPanel:
-                pos_hint: {'x': 0, 'y': 0}
-                do_default_tab: False
-                TabbedPanelItem:
-                    text: 'Code python'
-                    CodeInput:
-                        text: open('hello_world_kv.py').read()
-                        readonly: True
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            StencilView:
+                id: stencil_2
+                FloatLayout:
+                    pos: stencil_2.pos
+                    size: stencil_2.size
+                    TabbedPanel:
+                        pos_hint: {'x': 0, 'y': 0}
+                        do_default_tab: False
+                        TabbedPanelItem:
+                            text: 'Code python'
+                            CodeInput:
+                                text: open('hello_world_kv.py').read()
+                                readonly: True
 
-                TabbedPanelItem:
-                    text: 'Code KV'
-                    CodeInput:
-                        text: open('hello_world_kv.kv').read()
-                        readonly: True
+                        TabbedPanelItem:
+                            text: 'Code KV'
+                            CodeInput:
+                                id: hwcode
+                                text: open('hello_world_kv.kv').read()
+                                readonly: True
 
-                TabbedPanelItem:
-                    text: 'Result'
-                    Label:
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 0, 1
-                            Rectangle:
-                                pos: self.pos
-                                size: self.size
-                        text: 'Hello World'
+                        TabbedPanelItem:
+                            text: 'Result'
+                            PresWidget:
+                                canvas.before:
+                                    Color:
+                                        rgba: 0, 0, 0, 1
+                                    Rectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                source: hwcode.text
 
         # example plus complex avec python et kv
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                ScrollView:
+                    CodeInput:
+                        id: lbl
+                        text: open('complex.kv').read()
 
+                PresWidget:
+                    source: lbl.text
+
+        # explications properties
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+
+                TextLine:
+                    text:
+                        (
+                        "Les propriétés des classes sont une extension du principe des attributs\n"
+                        "Elles permettent d'associer des actions aux changements de valeurs\n"
+                        "Elles représentent les types de données de base: \n"
+                        " - NumericProperty\n"
+                        " - StringProperty\n"
+                        " - ObjectProperty\n"
+                        " - ListProperty\n"
+                        "Mais aussi d'abstraire des comportements plus complexes:\n"
+                        " - AliasProperty\n"
+                        )
+
+                Widget
+
+        # explications Canvas
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+
+                TextLine:
+                    text:
+                        (
+                        "La représentation des widgets se fait via des instructions canvas\n"
+                        "L'api graphique de kivy est un wrapping d'openglES, simplifiant grandement son usage\n"
+                        "Écrit principalement en cython, elle permet une bonne optimisation\n"
+                        )
+                BoxLayout:
+                    TextLine:
+                        text:
+                            (
+                            "Instractions de dessin:\n"
+                            " - Line\n"
+                            " - Rectangle\n"
+                            " - Ellipse\n"
+                            " - etc…\n"
+                            )
+                    TextLine:
+                        text:
+                            (
+                            "Instructions de context:\n"
+                            " - Color\n"
+                            " - StencilPush/StencilPop\n"
+                            " - PushMatrix/PopMatrix\n"
+                            " - Rotate/Scale/Translate\n"
+                            )
+
+                Widget
         # examples canvas + properties
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                TabbedPanel:
+                    do_default_tab: False
+                    TabbedPanelItem:
+                        text: 'kv'
+                        ScrollView:
+                            CodeInput:
+                                size_hint_y: None
+                                height: 1500
+                                id: lbl2
+                                text: open('canvas_properties.kv').read()
 
-        # examples création widget perso
+                    TabbedPanelItem:
+                        text: 'python'
+                        CodeInput:
+                            text: open('rounded.py').read()
+
+                PresWidget:
+                    source: lbl2.text
+
 
         # classes dynamiques
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+
+            BoxLayout:
+                orientation: 'vertical'
+
+            TextLine:
+                text:
+                    (
+                    "Besoin de factoriser le code kv (présentation), sans pour autant avoir besoin de créer des classes python\n"
+                    "déclaration d'une classe coté kv, avec héritage d'un autre widget\n"
+                    )
+            TextLine:
+                text:
+                    ""
 
         ## pyjnius/pyobjus
 

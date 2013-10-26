@@ -1,6 +1,8 @@
 from kivy.app import App
 from kivy.core.window import Window
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, StringProperty
+from kivy.uix.boxlayout import BoxLayout
+from kivy.lang import Builder
 
 # needed for kv
 from kivy.garden import magnet
@@ -36,6 +38,17 @@ class PresApp(App):
 
     def on_page(self, *args):
         print self.page
+
+class PresWidget(BoxLayout):
+    source = StringProperty('')
+
+    def on_source(self, *args):
+        if self.children:
+            self.clear_widgets()
+
+        w = Builder.load_string(self.source)
+        if w:
+            self.add_widget(w)
 
 if __name__ == '__main__':
     PresApp().run()
