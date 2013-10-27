@@ -1,0 +1,35 @@
+RelativeLayout:
+    BoxLayout:
+        orientation: 'vertical'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+        MyWidget:
+            text: 'test'
+
+
+<MyWidget@Label>:
+    canvas.before:
+        Color:
+            rgb: (self.y / 10.) % 1, (self.y / 5.) % 1, (self.y / 2.0) % 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+

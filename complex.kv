@@ -1,0 +1,17 @@
+BoxLayout:
+    orientation: 'vertical'
+
+    Label:
+        text: 'a title'
+        size_hint_y: None
+        height: self.texture_size[1]
+        font_size: '20sp'
+
+    Button:
+        id: btn1
+        text: 'Be happy!'
+        size_hint_y: .1
+
+    Label:
+        text: ':|' if btn1.state == 'normal' else ':D'
+

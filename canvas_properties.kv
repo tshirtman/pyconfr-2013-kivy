@@ -1,0 +1,60 @@
+#:import BorderDemo rounded.BorderDemo
+BorderDemo:
+    orientation: 'vertical'
+    BoxLayout:
+        Slider:
+            value: root.corners[0]
+            on_value: root.corners[0] = args[1]
+            orientation: 'vertical'
+        Slider:
+            value: root.corners[1]
+            on_value: root.corners[1] = args[1]
+            orientation: 'vertical'
+        Slider:
+            value: root.corners[2]
+            on_value: root.corners[2] = args[1]
+            orientation: 'vertical'
+        Slider:
+            value: root.corners[3]
+            on_value: root.corners[3] = args[1]
+            orientation: 'vertical'
+        Slider:
+            value: root.borderwidth
+            on_value: root.borderwidth = args[1]
+            orientation: 'vertical'
+            min: 1
+
+    Widget:
+        canvas:
+            Line:
+                points:
+                    self.x + root.corners[0], self.y, self.right - root.corners[1], self.y
+                width: root.borderwidth
+            Line:
+                points:
+                    self.right, self.y + root.corners[1], self.right, self.top - root.corners[2]
+                width: root.borderwidth
+            Line:
+                points:
+                    self.right - root.corners[2], self.top, self.x + root.corners[3], self.top
+                width: root.borderwidth
+            Line:
+                points:
+                    self.x, self.top - root.corners[3], self.x, self.y + root.corners[0]
+                width: root.borderwidth
+
+            Line:
+                circle: self.x + root.corners[0], self.y + root.corners[0], root.corners[0], 180, 270
+                width: root.borderwidth
+            Line:
+                circle: self.right - root.corners[1], self.y + root.corners[1], root.corners[1], 90, 180
+                width: root.borderwidth
+
+            Line:
+                circle: self.right - root.corners[2], self.top - root.corners[2], root.corners[2], 0, 90
+                width: root.borderwidth
+            Line:
+                circle: self.x + root.corners[3], self.top - root.corners[3], root.corners[3], 270, 360
+                width: root.borderwidth
+
+
