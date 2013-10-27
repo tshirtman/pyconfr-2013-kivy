@@ -1,8 +1,11 @@
 from kivy.app import App
 from kivy.core.window import Window
-from kivy.properties import NumericProperty, StringProperty
+from kivy.properties import NumericProperty, StringProperty, ListProperty
 from kivy.uix.boxlayout import BoxLayout
+from kivy.animation import Animation
 from kivy.lang import Builder
+from random import random
+from math import pi
 
 # needed for kv
 from kivy.garden import magnet
@@ -19,10 +22,24 @@ transitions = (
 
 class PresApp(App):
     page = NumericProperty(0)
+    colors = ListProperty([[random() for i in range(4)] for i in range(3)])
+    origins = ListProperty([[random() * Window.width, random() * Window.height] for i in range(3)])
+    angles = ListProperty([random() * 2 * pi for i in range(3)])
 
     def build(self):
         Window.bind(on_keyboard=self.manage_key)
+        self.animate_bg()
         return super(PresApp, self).build()
+
+    def animate_bg(self, *args):
+        a = Animation(
+                colors=[[random() for i in range(4)] for i in range(3)],
+                origins=[[random() * Window.width, random() * Window.height] for i in range(3)],
+                angles=[random() * 2 * pi for i in range(3)],
+                d=60,
+                t='in_out_cubic')
+        a.bind(on_complete=self.animate_bg)
+        a.start(self)
 
     def manage_key(self, window, key, *args):
 

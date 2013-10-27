@@ -6,9 +6,54 @@
 #:set h2 '50sp'
 #:set h3 '30sp'
 #:set text '25sp'
+#:import izip itertools.izip
+#:import sin math.sin
+#:import cos math.cos
 
 
 FloatLayout:
+    points1:
+        reduce(lambda x, y: x + y, izip(
+        [app.origins[0][0] + cos(app.angles[0] * i) * 250 for i in xrange(8)],
+        [app.origins[0][1] + sin(app.angles[0] * i) * 250 for i in xrange(8)]))
+    points2:
+        reduce(lambda x, y: x + y, izip(
+        [app.origins[1][0] + cos(app.angles[1] * i) * 250 for i in xrange(8)],
+        [app.origins[1][1] + sin(app.angles[1] * i) * 250 for i in xrange(8)]))
+    points3:
+        reduce(lambda x, y: x + y, izip(
+        [app.origins[2][0] + cos(app.angles[2] * i) * 250 for i in xrange(8)],
+        [app.origins[2][1] + sin(app.angles[2] * i) * 250 for i in xrange(8)]))
+
+    canvas.before:
+        Color:
+            rgba: .2, .2, .2, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+        Color:
+            rgba: app.colors[0]
+        Line:
+            points: root.points1 + root.points1[:2] if root.points1 else []
+            width: 5
+
+        Color:
+            rgba: app.colors[1]
+        Line:
+            points: root.points2 + root.points2[:2] if root.points2 else []
+            width: 5
+
+        Color:
+            rgba: app.colors[2]
+        Line:
+            points: root.points3 + root.points3[:2] if root.points3 else []
+            width: 5
+
+        Color:
+            rgba: 1, 1, 1, 1
+
     GridLayout:
         id: gl
         x: root.x
@@ -36,6 +81,37 @@ FloatLayout:
                 font_size: h2
                 pos_hint: {'center_x': .5, 'y': .1}
 
+        # présentation
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+
+            Title:
+                text: 'Présentation'
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Gabriel Pettier'
+                TextLine:
+                    text:
+                        (
+                        'Tombé dans python vers 2005\n'
+                        'Intérêt pour PyMT puis Kivy depuis 2009\n'
+                        'Contributeur Kivy depuis 2010\n'
+                        'Gihux.com - consulting Python/Kivy depuis 2013\n'
+                        )
+
+                TextLine:
+                    text:
+                        (
+                        'tshirtman sur irc/github/twitter/autres\n'
+                        'gihux sur twitter\n'
+                        )
+                Widget
         # introduction
         BoxLayout:
             orientation: 'vertical'
@@ -49,7 +125,6 @@ FloatLayout:
                     "Kivy est un framework UI python, orienté interaction multitouch\n"
                     "Basé sur openglES 2.0, il est très portable, et très performant\n"
                     "Il est très facile à étendre en Python, puisque c'est son langage natif\n"
-                    ""
                     )
             Widget:
 
@@ -158,17 +233,19 @@ FloatLayout:
             BoxLayout:
                 orientation: 'vertical'
 
+                Title:
+                    text: 'Propriétés'
                 TextLine:
                     text:
                         (
                         "Les propriétés des classes sont une extension du principe des attributs\n"
                         "Elles permettent d'associer des actions aux changements de valeurs\n"
-                        "Elles représentent les types de données de base: \n"
+                        "Elles représentent les types de données de base\n"
                         " - NumericProperty\n"
                         " - StringProperty\n"
                         " - ObjectProperty\n"
                         " - ListProperty\n"
-                        "Mais aussi d'abstraire des comportements plus complexes:\n"
+                        "Mais aussi d'abstraire des comportements plus complexes\n"
                         " - AliasProperty\n"
                         )
 
@@ -181,6 +258,8 @@ FloatLayout:
             BoxLayout:
                 orientation: 'vertical'
 
+                Title:
+                    text: 'Instructions Canvas'
                 TextLine:
                     text:
                         (
@@ -192,7 +271,7 @@ FloatLayout:
                     TextLine:
                         text:
                             (
-                            "Instractions de dessin:\n"
+                            "Instractions de dessin\n"
                             " - Line\n"
                             " - Rectangle\n"
                             " - Ellipse\n"
@@ -201,7 +280,7 @@ FloatLayout:
                     TextLine:
                         text:
                             (
-                            "Instructions de context:\n"
+                            "Instructions de context\n"
                             " - Color\n"
                             " - StencilPush/StencilPop\n"
                             " - PushMatrix/PopMatrix\n"
@@ -213,25 +292,29 @@ FloatLayout:
         Magnet:
             size_hint_y: None
             height: Window.height
-            BoxLayout:
-                TabbedPanel:
-                    do_default_tab: False
-                    TabbedPanelItem:
-                        text: 'kv'
-                        ScrollView:
+            StencilView:
+                id: stencil_3
+                BoxLayout:
+                    pos: stencil_3.pos
+                    size: stencil_3.size
+                    TabbedPanel:
+                        do_default_tab: False
+                        TabbedPanelItem:
+                            text: 'kv'
+                            ScrollView:
+                                CodeInput:
+                                    size_hint_y: None
+                                    height: 1500
+                                    id: lbl2
+                                    text: open('canvas_properties.kv').read()
+
+                        TabbedPanelItem:
+                            text: 'python'
                             CodeInput:
-                                size_hint_y: None
-                                height: 1500
-                                id: lbl2
-                                text: open('canvas_properties.kv').read()
+                                text: open('rounded.py').read()
 
-                    TabbedPanelItem:
-                        text: 'python'
-                        CodeInput:
-                            text: open('rounded.py').read()
-
-                PresWidget:
-                    source: lbl2.text
+                    PresWidget:
+                        source: lbl2.text
 
 
         # classes dynamiques
@@ -241,36 +324,272 @@ FloatLayout:
 
             BoxLayout:
                 orientation: 'vertical'
+                Title:
+                    text: 'Classes dynamiques'
 
-            TextLine:
-                text:
-                    (
-                    "Besoin de factoriser le code kv (présentation), sans pour autant avoir besoin de créer des classes python\n"
-                    "déclaration d'une classe coté kv, avec héritage d'un autre widget\n"
-                    )
-            TextLine:
-                text:
-                    ""
+                BoxLayout:
+                    BoxLayout:
+                        orientation: 'vertical'
+                        TextLine:
+                            text:
+                                (
+                                "Besoin de factoriser le code kv (présentation), sans pour autant avoir besoin de créer des classes python\n"
+                                "déclaration d'une classe coté kv, avec héritage d'un autre widget\n"
+                                )
+                        Widget
+                    ScrollView:
+                        CodeInput:
+                            size_hint_y: None
+                            height: 1000
+                            id: dc_code
+                            text: open('example_dc.kv').read()
+
+                    PresWidget:
+                        source: dc_code.text
 
         ## pyjnius/pyobjus
-
         # présentation du probleme
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Projets annexes'
 
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'PyJNIus/PyOBJus'
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                Title:
+                    text: 'Le problème'
+                TextLine:
+                    text:
+                        (
+                        'Sur les plateformes, mobiles en particulier, les apis natives ne sont pas pensées pour python\n'
+                        ' - Android -> Java\n'
+                        ' - iOS -> ObjectiveC\n'
+                        )
+                TextLine:
+                    text:
+                        (
+                        'Les usages de ces plateformes dépendent beaucoup de ces API\n'
+                        ' - Gestion du GPS\n'
+                        ' - … de l\'orientation du téléphone\n'
+                        ' - Utilisation du retour aptique (vibreur)\n'
+                        ' - Faire joujou avec le Flash de l\'appareil photo\n'
+                        ' - etc'
+                        )
+                Widget:
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Deux solutions'
+                TextLine:
+                    text:
+                        (
+                        'Wrapper manuellement toutes les API intéressantes\n'
+                        '(PyObjc, SL4A…)\n'
+                        ' -> Beaucoup de travail redondant\n'
+                        ' -> Pas fun\n'
+                        ' -> Sera forcément toujours en retard\n'
+                        )
+                TextLine:
+                    text:
+                        (
+                        'Utiliser l\'introspection pour wrapper magiquement les API\n'
+                        ' -> Plus de magie bas niveaux\n'
+                        ' -> Plus de bugs rigolos\n'
+                        ' -> Solution quasi universelle\n'
+                        )
+                Widget
         # pyjnius
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'PyJNIus'
+                TextLine:
+                    text:
+                        (
+                        ' - Utilise l\'interface JNI (C) de Java via cython\n'
+                        ' - Wrappe les classes et objets Java dans des objets Python, en utilisant l\'introspection Java\n'
+                        ' - Transforme les types à la volé, afin de permettre des appels directs des méthodes java selon leur signature (encore imparfait, mais relativement puissant)\n'
+                        ' - Permet d\'implémenter des interfaces Java par des classes python, passant un objet proxy a Java pour appeler nos méthodes Python\n'
+                        ' - N\'est pas spécifique a android, il marche aussi avec la VM Java de bureau, et peut être utilisé dans des projets totalement étranger à android\n'
+                        )
+                TextLine:
+                    text: 'pyjnius.rtfd.org'
+                Widget
+
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            CodeInput:
+                text: open('jnius_1.py').read()
+
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            CodeInput:
+                text: open('jnius_2.py').read()
 
         # pyobjus
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'PyObjus'
+
+                TextLine:
+                    text:
+                        (
+                        'Un wrapper python automatique pour ObjectiveC\n'
+                        'Fonctionnant sur OSX et sur iOS\n'
+                        'Utilise ffi pour l\'introspection et l\'appel de fonctions\n'
+                        '(sounds familiar?)\n'
+                        )
+
+                TextLine:
+                    text: 'pyobjus.rtfd.org'
+                Widget
+
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            CodeInput:
+                text: open('objus.py').read()
 
         ## packaging
         # python-for-android
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Python-for-android'
+                TextLine:
+                    text:
+                        (
+                        'Compile CPython pour arm\n'
+                        'Compile les bibliothèques C nécéssaires a kivy, et kivy, pour arm\n'
+                        'Embarque les bibliothèques python demandées\n'
+                        'Crée un APK contenant tout ça, avec bien sûr le code et les données du programme packagé\n'
+                        )
+                TextLine:
+                    text:
+                        (
+                        'Nécessite d\'installer et de compiler beaucoup de choses pour produire un APK\n'
+                        'N\'offre pas beaucoup d\'assistance pour les phases répétitives de build/deploy/test\n'
+                        'Ne marche que sous Linux et OSX\n'
+                        )
+                Widget
+
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Créer la distribution'
+                TextLine:
+                    text: './distribute.sh -m "kivy"'
+                Title:
+                    text: 'Produire un APK à partir de cette distribution'
+                TextLine:
+                    text: './build.py --package org.myorg.test --name Test --version 0.01 debug'
+                Widget
 
         # kivy-ios
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Compiler Kivy & friends'
+                TextLine:
+                    text: './build-all.sh'
+                Title:
+                    text: 'Créer un projet'
+                TextLine:
+                    text: 'tools/create-xcode-project.sh test /path/to/app'
+                Title:
+                    text: 'Build/Deploy'
+                TextLine:
+                    text: 'Configurer xcode et cliquer sur play'
 
+                Widget
         # buildozer
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Buildozer'
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Automatiser le boulot de python-for-android/kivy-ios'
+                TextLine:
+                    text:
+                        (
+                        'Prends un fichier de specs (nom du projet, icone, orientation, etc)\n'
+                        'Télécharge les dépendence et compile tout le nécessaire quand on fait une opération sur une nouvelle cible (android ou ios)\n'
+                        'Construit, installe et lance les package sur un device connecté, à la demande (plus besoin de toucher xcode!)\n'
+                        )
 
+                Title:
+                    text: 'Créer un fichier de specs'
+                TextLine:
+                    text: 'buildozer init'
+
+                Title:
+                    text: 'Éditer le fichier pour son projet'
+                TextLine:
+                    text: 'vim buildozer.spec'
+
+                Title:
+                    text: 'Lancer la création et le déploiement sur un android connecté'
+                TextLine:
+                    text: 'buildozer android debug deploy install run logcat'
+                Widget:
         ## conclusion
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Conclusion'
+
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Ça fait beaucoup!'
 
         # questions?
-
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Questions?'
 
 <FloatLabel@Label>:
     size: self.texture_size
