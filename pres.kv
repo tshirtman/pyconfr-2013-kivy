@@ -347,6 +347,25 @@ FloatLayout:
                     PresWidget:
                         source: dc_code.text
 
+        # Garden
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'Kivy Garden'
+                TextLine:
+                    text: 'Encourage le partage de widgets entre utilitateurs, sans les intégrer dans le core'
+                TextLine:
+                    text:
+                        (
+                        'garden search\n'
+                        'garden install magnet\n'
+                        'from kivy.garden.magnet import Magnet\n'
+                        )
+                Widget:
+
         ## pyjnius/pyobjus
         # présentation du probleme
         Magnet:
@@ -474,6 +493,29 @@ FloatLayout:
             CodeInput:
                 text: open('objus.py').read()
 
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            Title:
+                text: 'Plyer'
+        Magnet:
+            size_hint_y: None
+            height: Window.height
+            BoxLayout:
+                orientation: 'vertical'
+                Title:
+                    text: 'But'
+                TextLine:
+                    text: 'Offrir des API haut niveau commune pour les fonctionnalités spécifiques aux platformes\n'
+                TextLine:
+                    text:
+                        (
+                        'Projet encore balbutiant, mais plusieurs fonctionnalités disponibles\n'
+                        ' - Vibreur\n'
+                        ' - Notifications\n'
+                        )
+                TextLine:
+                    text: 'github.com/kivy/plyer'
         ## packaging
         # python-for-android
         Magnet:
@@ -500,22 +542,31 @@ FloatLayout:
                         )
                 Widget
 
+        # kivy-ios
         Magnet:
             size_hint_y: None
             height: Window.height
             BoxLayout:
                 orientation: 'vertical'
                 Title:
-                    text: 'Créer la distribution'
+                    text: 'Kivy-ios'
                 TextLine:
-                    text: './distribute.sh -m "kivy"'
-                Title:
-                    text: 'Produire un APK à partir de cette distribution'
+                    text:
+                        (
+                        'Compile CPython pour arm/iOS\n'
+                        'Compile les bibliothèques C nécéssaires a kivy, et kivy, pour arm/iOS\n'
+                        'Embarque les bibliothèques python demandées\n'
+                        'Crée un \n'
+                        )
                 TextLine:
-                    text: './build.py --package org.myorg.test --name Test --version 0.01 debug'
+                    text:
+                        (
+                        'Nécessite d\'installer et de compiler beaucoup de choses pour produire un APK\n'
+                        'N\'offre pas beaucoup d\'assistance pour les phases répétitives de build/deploy/test\n'
+                        'Ne marche que sous Linux et OSX\n'
+                        )
                 Widget
 
-        # kivy-ios
         Magnet:
             size_hint_y: None
             height: Window.height
